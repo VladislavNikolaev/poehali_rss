@@ -15,5 +15,5 @@ def parse_list():
 
 def parse_page(url):
     page = lxml.html.fromstring(requests.get(url).content)
-    post = page.xpath('//table//table//table//table//tr')[0].xpath('./td[2]')
+    post = page.xpath('//table//table//table//table//tr')[0].xpath('./td[2]')[0]
     return lxml.etree.tostring(post)
