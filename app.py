@@ -1,11 +1,12 @@
+from functools import lru_cache
 import logging
 import os
 
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, Response
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.contrib.atom import AtomFeed
 
-from parser import parse_list, parse_page
+from parser import parse_list, parse_page, parse_icon
 
 
 SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
@@ -45,3 +46,9 @@ def scheduler():
         db.session.add(Topic(url, title, body))
     db.session.commit()
     return 'ok'
+
+
+@app.route('/favicon.ico')
+@lru_cache()
+def favicon():
+    return Response(parse_icon(), mimetype='image/x-icon')
