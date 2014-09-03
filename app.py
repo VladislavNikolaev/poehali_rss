@@ -4,6 +4,8 @@ from flask import Flask, request, redirect, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.contrib.atom import AtomFeed
 
+from parser import parse_list, parse_page
+
 
 SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
@@ -28,3 +30,14 @@ def feed():
         feed.add(topic.title, topic.body, content_type='html', url=topic.url, published=topic.date)
     db.session.rollback()
     return feed.get_response()
+
+
+@app.route('/schedule')
+def scheduler():
+    for url, title in parse_list():
+        topic = db.session.query(Topic).filter(Topic.url == url).first()
+        if topic:
+            continue
+        body = parse_page(url)
+        db.session.add(Topic(url, title, body))
+    db.session.commit()
