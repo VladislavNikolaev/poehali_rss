@@ -1,3 +1,4 @@
+import logging
 import os
 
 from flask import Flask, request, redirect, url_for
@@ -13,6 +14,8 @@ SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 app = Flask(__name__)
 app.config.from_object(__name__)
 db = SQLAlchemy(app)
+app.logger.addHandler(logging.StreamHandler())
+app.logger.setLevel(logging.INFO)
 
 
 from db import Topic
