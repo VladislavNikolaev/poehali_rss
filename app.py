@@ -41,3 +41,4 @@ def scheduler():
         body = parse_page(url)
         db.session.add(Topic(url, title, body))
     db.session.commit()
+    return 'ok'
