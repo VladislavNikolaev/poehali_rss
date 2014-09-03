@@ -7,7 +7,7 @@ def parse_list():
     url = 'http://forum.poehali.net/index.php?board=12'
     page = lxml.html.fromstring(requests.get(url).content)
     results = []
-    for row in page.xpath('//table//table//table//table//tr')[2:]:
+    for row in page.xpath('//table//table//table//table//tr')[2:][::-1]:
         link = row.xpath('.//td[3]//a')[0]
         results.append((link.attrib['href'], link.text_content().strip()))
     return results

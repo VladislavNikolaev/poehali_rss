@@ -30,7 +30,7 @@ def home():
 @app.route('/topics.atom')
 def feed():
     feed = AtomFeed('forum.poehali.net', feed_url=request.url, url=request.url_root)
-    for topic in db.session.query(Topic).order_by(Topic.date.asc()).limit(20).all():
+    for topic in db.session.query(Topic).order_by(Topic.date.desc()).limit(20).all():
         feed.add(topic.title, topic.body, content_type='html', url=topic.url, published=topic.date, updated=topic.date)
     db.session.rollback()
     return feed.get_response()
