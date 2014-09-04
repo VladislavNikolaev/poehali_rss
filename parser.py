@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from dateutil.parser import parse
 import lxml.etree
 import lxml.html
 import requests
@@ -21,8 +22,9 @@ def parse_page(url):
     date = page.xpath('//font[@class="font1"]')[1].text_content().split(',')[1].strip()
     date = date.replace('сегодня', datetime.now().strftime('%d.%m.%Y'))
     date = date.replace('вчера', (datetime.now() - timedelta(days=1)).strftime('%d.%m.%Y'))
+    date = date.replace('в', ' ')
     post = page.xpath('//table//table//table//table//tr')[0].xpath('./td[2]/div[2]')[0]
-    return title, datetime.strptime(date, '%d.%m.%Y в %H:%M'), lxml.etree.tostring(post).decode('utf8').strip()
+    return title, parse(date), lxml.etree.tostring(post).decode('utf8').strip()
 
 
 def parse_icon():
