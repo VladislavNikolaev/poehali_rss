@@ -39,7 +39,7 @@ def feed():
 @app.route('/schedule')
 @app.route('/schedule/<path:url>')
 def scheduler(url=None):
-    for url in ['http://' + url] if url else parse_list():
+    for url in ['http://' + request.full_path[10:]] if url else parse_list():
         topic = db.session.query(Topic).filter(Topic.url == url).first()
         if topic:
             continue
