@@ -10,10 +10,12 @@ class Topic(db.Model):
     url = Column(String(2000), primary_key=True)
     title = Column(String(250), nullable=False)
     body = Column(Text)
-    date = Column(DateTime, default=datetime.utcnow, nullable=False)
+    published = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    def __init__(self, url, title, date, body):
+    def __init__(self, url, title, published, updated, body):
         self.url = url
         self.title = title
-        self.date = date
+        self.published = published
+        self.updated = updated
         self.body = body
