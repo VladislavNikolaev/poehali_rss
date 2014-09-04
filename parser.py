@@ -24,7 +24,7 @@ def parse_page(url):
     date = date.replace('вчера', (datetime.now() - timedelta(days=1)).strftime('%d.%m.%Y'))
     date = date.replace('в', ' ')
     post = page.xpath('//table//table//table//table//tr')[0].xpath('./td[2]/div[2]')[0]
-    return title, parse(date), lxml.etree.tostring(post).decode('utf8').strip()
+    return title, parse(date, dayfirst=True), lxml.etree.tostring(post).decode('utf8').strip()
 
 
 def parse_icon():
