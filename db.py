@@ -12,7 +12,8 @@ class Topic(db.Model):
     body = Column(Text)
     date = Column(DateTime, default=datetime.utcnow, nullable=False)
 
-    def __init__(self, url, title, body):
+    def __init__(self, url, title, date, body):
         self.url = url
         self.title = title
+        self.date = date
         self.body = body

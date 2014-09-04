@@ -37,13 +37,14 @@ def feed():
 
 
 @app.route('/schedule')
-def scheduler():
-    for url, title in parse_list():
+@app.route('/schedule/<special:url>')
+def scheduler(url=None):
+    for url in ['http://' + url] if url else parse_list():
         topic = db.session.query(Topic).filter(Topic.url == url).first()
         if topic:
             continue
-        body = parse_page(url)
-        db.session.add(Topic(url, title, body))
+        title, date, body = parse_page(url)
+        db.session.add(Topic(url, title, date, body))
     db.session.commit()
     return 'ok'
 
