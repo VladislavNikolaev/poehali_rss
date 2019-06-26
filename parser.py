@@ -14,7 +14,7 @@ def parse_date(date):
 
 
 def parse_list():
-    url = 'http://forum.poehali.net/index.php?board=12'
+    url = 'http://forum.poehali.net/index.php?board=69'
     page = lxml.html.fromstring(requests.get(url).content)
     results = []
     for row in page.xpath('//table//table//table//table//tr')[2:][::-1]:
